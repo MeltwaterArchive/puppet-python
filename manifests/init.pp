@@ -31,8 +31,8 @@ class python( $version = "2.7" ) {
   }
 
   exec { "fix yum to use old python version":
-    onlyif => "test ! -L /usr/bin/python",
-    command => "sed -i 's/python\$/python'`/usr/bin/python -V 2>&1 | cut -d ' ' -f 2`'/' /usr/bin/yum",
+    onlyif => "test -e /usr/bin/python -a ! -L /usr/bin/python",
+    command => "sed -i 's/python\$/python'`/usr/bin/python -V 2>&1 | cut -d ' ' -f 2`'/' /usr/bin/yum || :",
     alias => "yum_fix_${version}",
   }
 
