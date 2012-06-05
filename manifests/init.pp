@@ -29,9 +29,15 @@ class python( $version = "2.7" ) {
     alias   => "install_python_${version}"
   }
 
-  exec { "move a possible already installed version of python":
+  exec { "fix yum to use old python version":
     onlyif => "test ! -L /usr/bin/python",
-    command => "mv /usr/bin/python /usr/bin/python`python -V 2>&1 | cut -d ' ' -f 2`"
+    command => "sed -i 's/python\$/python'`python -V 2>&1 | cut -d ' ' -f 2`'/' /usr/bin/yum",
+    alias => "yum_fix_${version}",
+  }
+
+  exec { "move a possible already installed version of python":
+    command => "mv /usr/bin/python /usr/bin/python`python -V 2>&1 | cut -d ' ' -f 2`",
+    require => Exec["yum_fix_${version}"]
   }
 
   file { "/usr/bin/python":
