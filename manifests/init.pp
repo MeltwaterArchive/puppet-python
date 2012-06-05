@@ -13,6 +13,7 @@ class python( $version = "2.7" ) {
     target => "/usr/local/src",
     src_target => "/usr/local/src",
     checksum => false,
+    unless   => "python -V 2>&1 | grep '$version'",
   }
 
   exec { "configure python ${version}":
