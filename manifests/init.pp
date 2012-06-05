@@ -7,7 +7,7 @@
 # Or:
 # class { python: version => x.x.x }
 
-class python ( $version = 2.7 ) {
+class python( $version = 2.7 ) {
   
   archive { "python-${version}":
     url => 'wget http://python.org/ftp/python/${version}/Python-${version}.tgz"
