@@ -13,7 +13,6 @@ class python( $version = "2.7" ) {
     target => "/usr/local/src",
     src_target => "/usr/local/src",
     checksum => false,
-    unless   => "python -V 2>&1 | grep '$version'",
   }
 
   exec { "configure python ${version}":
@@ -21,6 +20,7 @@ class python( $version = "2.7" ) {
     command => "/bin/sh -c './configure'",
     require => Archive["python-${version}"],
     alias   => "conf_python_${version}",
+    unless   => "python -V 2>&1 | grep '$version'",
   }
 
   exec { "make && make install for python ${version}":
