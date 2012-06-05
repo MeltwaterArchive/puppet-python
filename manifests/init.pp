@@ -8,16 +8,16 @@
 # class { python: version => x.x.x }
 
 class python( $version = "2.7" ) {
-  
   archive { "python-${version}":
-    url => 'wget http://python.org/ftp/python/${version}/Python-${version}.tgz"
+    url => "http://python.org/ftp/python/${version}/Python-${version}.tgz",
     target => "/usr/local/src",
-    src_target => "/usr/local/src"
+    src_target => "/usr/local/src",
+    checksum => false,
   }
 
   exec { "configure python ${version}":
     cwd     => "/usr/local/src/Python-${version}",
-    command => "./configure",
+    command => "/bin/sh -c './configure'",
     require => Archive["python-${version}"],
     alias   => "conf_python_${version}",
   }
@@ -26,7 +26,7 @@ class python( $version = "2.7" ) {
     cwd     => "/usr/local/src/Python-${version}",
     command => "make && make install",
     require => Exec["conf_python_${version}"],
-    alias   => "install_python_${verion}"
+    alias   => "install_python_${version}"
   }
 
   exec { "move a possible already installed version of python":
@@ -40,5 +40,4 @@ class python( $version = "2.7" ) {
     force  => true,
     require => Exec["install_python_${version}"],
   }
-
 }
