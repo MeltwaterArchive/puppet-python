@@ -18,7 +18,7 @@ class python( $version = "2.7" ) {
   exec { "configure python ${version}":
     cwd     => "/usr/local/src/Python-${version}",
     command => "/bin/sh -c './configure'",
-    require => Archive["python-${version}"],
+    require => Archive["Python-${version}"],
     alias   => "conf_python_${version}",
     unless   => "python -V 2>&1 | grep '$version'",
   }
