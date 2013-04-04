@@ -20,7 +20,7 @@ class python( $version = "2.7" ) {
     command => "/bin/sh -c './configure'",
     require => Archive["Python-${version}"],
     alias   => "conf_python_${version}",
-    unless   => "python -V 2>&1 | grep '$version'",
+    creates => "/usr/local/src/Python-${version}/Modules/Setup"
   }
 
   exec { "make && make install for python ${version}":
@@ -28,6 +28,7 @@ class python( $version = "2.7" ) {
     command => "make && make install",
     require => Exec["conf_python_${version}"],
     alias   => "install_python_${version}"
+    creates => "/usr/local/bin/python${version}"
   }
 
   #exec { "fix yum to use old python version":
