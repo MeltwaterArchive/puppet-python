@@ -8,7 +8,7 @@
 # class { python: version => x.x.x }
 
 class python( $version = "2.7" ) {
-  archive { "python-${version}":
+  archive { "Python-${version}":
     url => "http://python.org/ftp/python/${version}/Python-${version}.tgz",
     target => "/usr/local/src",
     src_target => "/usr/local/src",
