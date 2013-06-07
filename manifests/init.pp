@@ -7,12 +7,12 @@
 # Or:
 # class { python: version => x.x.x }
 
-class python( $version = "2.7" ) {
+class python( $version = '2.7' ) {
   archive { "Python-${version}":
-    url => "http://www.python.org/ftp/python/${version}/Python-${version}.tgz",
-    target => "/usr/local/src",
-    src_target => "/usr/local/src",
-    checksum => false,
+    url        => "http://www.python.org/ftp/python/${version}/Python-${version}.tgz",
+    target     => '/usr/local/src',
+    src_target => '/usr/local/src',
+    checksum   => false,
   }
 
   exec { "configure python ${version}":
@@ -21,14 +21,16 @@ class python( $version = "2.7" ) {
     require => Archive["Python-${version}"],
     alias   => "conf_python_${version}",
     creates => "/usr/local/src/Python-${version}/Modules/Setup",
+    timeout => 900,
   }
 
   exec { "make && make install for python ${version}":
     cwd     => "/usr/local/src/Python-${version}",
-    command => "make && make install",
+    command => 'make && make install',
     require => Exec["conf_python_${version}"],
     alias   => "install_python_${version}",
     creates => "/usr/local/bin/python${version}",
+    timeout => 900,
   }
 
   #exec { "fix yum to use old python version":
